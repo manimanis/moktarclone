@@ -1,0 +1,1 @@
+sdl12_compat.pc

@@ -1,0 +1,3 @@
+# For historical reasons it's named libsdl1.2debian instead of libsdl-1.2-0.
+# It Provides the correct name.
+libsdl1.2debian: package-name-doesnt-match-sonames libSDL-1.2-0

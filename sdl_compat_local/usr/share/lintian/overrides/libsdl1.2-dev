@@ -1,0 +1,2 @@
+# intentionally empty on Unix (SDLmain has non-trivial contents on Windows)
+libsdl1.2-dev: no-code-sections [usr/lib/*/libSDLmain.a]

@@ -1,0 +1,14 @@
+# sdl12_compat pkg-config source file
+
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib/x86_64-linux-gnu
+includedir=/usr/include
+
+Name: sdl12_compat
+Description: An SDL-1.2 compatibility layer that uses SDL 2.0 behind the scenes.
+Version: 1.2.72
+Provides: sdl = 1.2.72
+Libs: -L${libdir}  -lSDL
+#Libs.private: -L${libdir} -lSDL 
+Cflags: -I${includedir}/SDL -D_GNU_SOURCE=1 -D_REENTRANT
