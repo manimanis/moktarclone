@@ -17,13 +17,13 @@ endif
 
 ifeq ($(PLATFORM),Windows)
     TARGET = bin/moktar.exe
-    INCLUDE = -I./include $(shell sdl-config --cflags 2>/dev/null || echo -I./sdl_compat_local/usr/include)
+    INCLUDE = -I./include $(shell sdl-config --cflags 2>/dev/null)
     CFLAGS  = -std=gnu17 -O2 -g -fcommon -fpermissive -w $(INCLUDE)
     CXXFLAGS = -std=c++17 -O2 -g -fcommon -w $(INCLUDE)
     LDFLAGS = -mconsole -lSDL -lSDL2 -lm -static-libgcc -static-libstdc++
 else
     TARGET = bin/moktar
-    INCLUDE = -I./include -I./sdl_compat_local/usr/include
+    INCLUDE = -I./include
     CFLAGS  = -std=gnu17 -O2 -g -fcommon -fpermissive -w $(INCLUDE)
     CXXFLAGS = -std=c++17 -O2 -g -fcommon -w $(INCLUDE)
     LDFLAGS = -L./lib -lSDL -lSDL2 -lm -lpthread '-Wl,-rpath,$$ORIGIN/../lib:$$ORIGIN/lib' -Wl,-rpath-link,./lib
