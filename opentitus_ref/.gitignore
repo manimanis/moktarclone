@@ -1,7 +1,0 @@
-bin/
-/bin/*
-
-*.o
-*.exe
-opentitus
-*.dge

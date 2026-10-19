@@ -314,8 +314,7 @@ int main(int argc, char* argv[]) {
         findAssetFile(".", "music_mok.bin"),
         findAssetFile("..", "music_mok.bin"),
         findAssetFile("./original_assets", "music_mok.bin"),
-        findAssetFile("../original_assets", "music_mok.bin"),
-        findAssetFile("./opentitus_ref/bin", "music_mok.bin")
+        findAssetFile("../original_assets", "music_mok.bin")
     };
     std::string musicPath = "";
     for (const auto& cand : musicCandidates) {
