@@ -137,6 +137,9 @@ int move_player(TITUS_level *level) {
                 return 0;
             } else if (event.key.keysym.sym == SDLK_F4) {
                 viewstatus(level, false);
+            } else if (event.key.keysym.sym == SDLK_F12) {
+                SDL_SaveBMP(screen, "screenshot.bmp");
+                printf("[*] Capture d'écran enregistrée dans screenshot.bmp\n");
             } else if (event.key.keysym.sym == SDLK_e) {
                 BAR_FLAG = 50;
 #endif

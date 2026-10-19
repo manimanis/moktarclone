@@ -81,4 +81,13 @@ char modulegameoverfile[256];
 int  modulegameoverfileloop;
 char modulelevel[32]; //Link to modulelevelfiles
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern char auto_screenshot_file[256];
+extern int auto_screenshot_frames;
+#ifdef __cplusplus
+}
+#endif
+
 #endif

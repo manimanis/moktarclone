@@ -62,6 +62,7 @@ struct GameOptions {
     bool enableMusic = true;
     bool skipIntro = false;
     bool showInfo = false;
+    std::string screenshotFile = "";
 };
 
 // Case-insensitive file finder
@@ -293,6 +294,8 @@ int main(int argc, char* argv[]) {
             opt.skipIntro = true;
         } else if (arg == "--nomusic") {
             opt.enableMusic = false;
+        } else if (arg == "--screenshot") {
+            if (i + 1 < argc) opt.screenshotFile = argv[++i];
         }
     }
 
@@ -428,6 +431,13 @@ int main(int argc, char* argv[]) {
         NOCLIP = true;
         GODMODE = true;
         std::cout << "[*] Mode Noclip (Traversée des murs) activé !\n";
+    }
+
+    if (!opt.screenshotFile.empty()) {
+        strncpy(auto_screenshot_file, opt.screenshotFile.c_str(), sizeof(auto_screenshot_file) - 1);
+        auto_screenshot_frames = 15;
+    } else {
+        auto_screenshot_frames = 0;
     }
 
     int state = 1;

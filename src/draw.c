@@ -461,9 +461,11 @@ int viewstatus(TITUS_level *level, bool countbonus){
         }
     }
 
-    retval = waitforbutton();
-    if (retval < 0)
-        return retval;
+    if (auto_screenshot_frames == 0) {
+        retval = waitforbutton();
+        if (retval < 0)
+            return retval;
+    }
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
     SDL_Flip(screen);

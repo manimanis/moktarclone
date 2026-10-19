@@ -299,3 +299,7 @@ int initleveltitles() {
     }
     return 0;
 }
+
+char auto_screenshot_file[256] = {0};
+int auto_screenshot_frames = 0;
+

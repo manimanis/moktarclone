@@ -280,6 +280,15 @@ static int playlevel(TITUS_level *level) {
             RETURN_MUSIC(level); //Restart music if the song is finished
 #endif
             flip_screen(true);
+
+            if (auto_screenshot_frames > 0) {
+                auto_screenshot_frames--;
+                if (auto_screenshot_frames == 0) {
+                    SDL_SaveBMP(screen, auto_screenshot_file);
+                    printf("[*] Capture d'écran automatique sauvegardée dans %s\n", auto_screenshot_file);
+                    return TITUS_ERROR_QUIT;
+                }
+            }
         }
         firstrun = false;
         IMAGE_COUNTER = (IMAGE_COUNTER + 1) & 0x0FFF; //Cycle from 0 to 0x0FFF
@@ -333,6 +342,15 @@ static int playlevel(TITUS_level *level) {
             RETURN_MUSIC(level); //Restart music if the song is finished
 #endif
             flip_screen(true);
+
+            if (auto_screenshot_frames > 0) {
+                auto_screenshot_frames--;
+                if (auto_screenshot_frames == 0) {
+                    SDL_SaveBMP(screen, auto_screenshot_file);
+                    printf("[*] Capture d'écran automatique sauvegardée dans %s\n", auto_screenshot_file);
+                    return TITUS_ERROR_QUIT;
+                }
+            }
         }
         firstrun = false;
         IMAGE_COUNTER = (IMAGE_COUNTER + 1) & 0x0FFF; //Cycle from 0 to 0x0FFF

@@ -41,8 +41,10 @@
 #ifdef AUDIO_ENABLED
 #include "audio.h"
 #endif
+#include "settings.h"
 
 int waitforbutton() {
+    if (auto_screenshot_frames > 0) return 0;
     SDL_Event event;
     int waiting = 1;
     while (waiting > 0)
