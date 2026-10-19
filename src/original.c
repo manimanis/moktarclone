@@ -318,9 +318,9 @@ int initoriginal() {
                             0x64,0x00,0x65,0x00,0x65,0x00,0x65,0x00,0xEE,0xFF,0x60,0x00,0x60,0x00,0x60,0x00,0x61,0x00,0x61,0x00,0x61,0x00,0x62,0x00,
                             0x62,0x00,0x62,0x00,0xEE,0xFF};
 
-    uint8 tmp_nmi_power[] = {10,10,10,4,10,10,10,10,10,10,0,10,10,6,10,10,10,0,0,10};
+    uint8 tmp_nmi_power[] = {10,10,10,4,10,10,10,10,10,10,0,10,10,6,10,10,10,10,0,10};
 
-    uint8 tmp_level_music[] = {12,12,13,13,12,11,13,10,3,10,0,11,13,10,11,12,14,0,0,11};
+    uint8 tmp_level_music[] = {12,12,13,13,12,11,13,10,3,10,0,11,13,10,11,12,14,12,0,11};
 
     for (i = 0; i < ORIG_LEVEL_COUNT; i++) {
         LEVEL_MUSIC[i] = tmp_level_music[i];
@@ -580,7 +580,11 @@ int initoriginal() {
     orig_palette_level_colour[15].b = 0 * 4;
     orig_palette_level_colour[15].unused = 0 * 4; 
 
-    
+    orig_palette_level_colour[16].r = 40 * 4;
+    orig_palette_level_colour[16].g = 20 * 4;
+    orig_palette_level_colour[16].b = 0 * 4;
+    orig_palette_level_colour[16].unused = 0 * 4; 
+
     orig_palette_font_colour[0].r = 0 * 4; // Unused
     orig_palette_font_colour[0].g = 63 * 4;
     orig_palette_font_colour[0].b = 63 * 4;
@@ -667,7 +671,7 @@ int initoriginal() {
 
 int16 getlevelid(int16 levelnumber) {
     int16 levelid_titus[] = {1,3,4,5,6,7,8,9,10,11,-1,12,13,-1,14,-1,15,-1,-1,2};
-    int16 levelid_moktar[] = {1,3,4,5,6,7,8,9,10,11,-1,12,13,-1,14,15,16,-1,-1,2};
+    int16 levelid_moktar[] = {1,3,4,5,6,7,8,9,10,11,-1,12,13,-1,14,15,16,17,-1,2};
     int16 i;
     if (game == 0) { //Titus
         for (i = 0; i < 20; i++) {
@@ -682,4 +686,5 @@ int16 getlevelid(int16 levelnumber) {
             }
         }
     }
+    return 0;
 }

@@ -45,7 +45,7 @@ int initoriginal();
 int16 getlevelid(int16 levelnumber);
 
 SDL_Color orig_palette_colour[16];
-SDL_Color orig_palette_level_colour[16];
+SDL_Color orig_palette_level_colour[32];
 SDL_Color orig_palette_font_colour[16];
 
 uint8 spritewidth[SPRITECOUNT];

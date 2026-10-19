@@ -68,8 +68,8 @@ int readconfig(char *configfile) {
                 return(-1);
             }
             sscanf (line, "%*s %255d", &levelcount);
-            if ((levelcount < 1) || (levelcount > 16)) {
-                printf("Error: 'levelcount' (%d) must be between 1 and 16, check config file: %s!\n", levelcount, configfile);
+            if ((levelcount < 1) || (levelcount > 32)) {
+                printf("Error: 'levelcount' (%d) must be between 1 and 32, check config file: %s!\n", levelcount, configfile);
                 fclose(ifp);
                 return(-1);
             }
@@ -257,6 +257,7 @@ int initcodes() {
     strcpy (levelcode[13], "B1A4");
     strcpy (levelcode[14], "EBEA");
     strcpy (levelcode[15], "3B9C");
+    strcpy (levelcode[16], "2026");
     return 0;
 }
 
@@ -294,6 +295,7 @@ int initleveltitles() {
         strcpy (leveltitle[13], "           DE RETOUR AU PAYS");
         strcpy (leveltitle[14], "           DIRECTION BARBES");
         strcpy (leveltitle[15], "              BIG BISOUS");
+        strcpy (leveltitle[16], "       LE MYSTERE DU NIVEAU 17");
     }
     return 0;
 }

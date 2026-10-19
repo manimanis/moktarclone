@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sqz.h"
 #include "tituserror.h"
 
@@ -96,7 +97,10 @@ int unSQZ(char *inputfile, unsigned char **output) {
         return (TITUS_ERROR_INVALID_FILE);
     }
 
-    if (comp_type == 0x10) {
+    if (comp_type == 0x01) {
+        memcpy(*output, inbuffer, out_len < in_len ? out_len : in_len);
+        i = out_len;
+    } else if (comp_type == 0x10) {
         i = lzw_decode(inbuffer, in_len, *output, out_len);
         if (i == TITUS_ERROR_NOT_ENOUGH_MEMORY)
             sprintf(lasterror, "Error: Not enough memory (dictionary) to decompress file: %s, needs %u bytes!\n", inputfile, (unsigned int)(LZW_MAX_TABLE * sizeof(unsigned int) + LZW_MAX_TABLE * sizeof(unsigned char)));

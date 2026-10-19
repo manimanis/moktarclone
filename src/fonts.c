@@ -542,19 +542,10 @@ int viewintrotext(){
     SDL_Print_Text("     YEAAA . . .", 0, 5 * 12);
     sprintf(tmpstring, "YOU ARE STILL PLAYING MOKTAR IN %d !!", timeinfo->tm_year + 1900);
     SDL_Print_Text(tmpstring, 0, 6 * 12);
-    SDL_Print_Text(" PROGRAMMED IN 1991 ON AT .286 12MHZ.", 0, 12 * 12);
-    SDL_Print_Text("   . . . ENJOY MOKTAR ADVENTURE !!", 0, 13 * 12);
+    SDL_Print_Text(" PROGRAMMED IN 1991 ON AT .286 12MHZ.", 0, 9 * 12);
+    SDL_Print_Text("   . . . ENJOY MOKTAR ADVENTURE !!", 0, 10 * 12);
 
-    SDL_Flip(screen);
-
-    retval = waitforbutton();
-    if (retval < 0)
-        return retval;
-
-    SDL_Print_Text("     YEAAA . . .", 0, 5 * 12);
-    sprintf(tmpstring, "YOU ARE STILL PLAYING MOKTAR IN %d !!", timeinfo->tm_year + 1900);
-    SDL_Print_Text(tmpstring, 0, 6 * 12);
-    SDL_Print_Text("REPROGRAMMED IN 2011 ON X86_64 2.40 GHZ.", 0, 12 * 12);
+    SDL_Print_Text("REPROGRAMMED IN 2026 ON X86_64 2.40 GHZ.", 0, 12 * 12);
     SDL_Print_Text("   . . . ENJOY MOKTAR ADVENTURE !!", 0, 13 * 12);
 
     SDL_Flip(screen);

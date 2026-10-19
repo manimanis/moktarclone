@@ -46,7 +46,7 @@ int initcodes();
 int initleveltitles();
 
 char spritefile[256];
-char levelfiles[16][256]; //16 levels in moktar, 15 levels in titus
+char levelfiles[32][256]; // 16 levels originally in Moktar, expandable up to 32
 char tituslogofile[256];
 int tituslogoformat;
 char titusintrofile[256];
@@ -68,8 +68,8 @@ int ingameheight;
 int videomode;
 int game;
 
-char levelcode[16][5];
-char leveltitle[16][41];
+char levelcode[32][5];
+char leveltitle[32][41];
 
 char moduleintrofile[256]; //.mod file
 int  moduleintrofileloop; //loop info
@@ -79,6 +79,6 @@ char modulelevelfile[6][256]; //6 different level files
 int  modulelevelfileloop[6];
 char modulegameoverfile[256];
 int  modulegameoverfileloop;
-char modulelevel[16]; //Link to modulelevelfiles
+char modulelevel[32]; //Link to modulelevelfiles
 
 #endif

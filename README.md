@@ -24,7 +24,7 @@ run_moktar.bat
 # Exemple Windows (run_moktar.bat ou .\bin\moktar.exe) / Linux (./run_moktar.sh)
 ./run_moktar.sh --help            # Affiche l'aide complète
 ./run_moktar.sh --info            # Affiche le rapport de reverse engineering
-./run_moktar.sh --level <1-16>    # Démarre directement à un niveau (1 à 16)
+./run_moktar.sh --level <1-17>    # Démarre directement à un niveau (1 à 17)
 ./run_moktar.sh --scale <1-4>     # Échelle de la fenêtre (1x, 2x, 3x=960x600, 4x)
 ./run_moktar.sh --fullscreen      # Mode plein écran (ratio 4:3 conservé)
 ./run_moktar.sh --godmode         # Trainer : santé / PV illimités
@@ -65,9 +65,10 @@ Le jeu utilise un conteneur propriétaire identifié par l'entête de 4 octets :
 - **Taille décompressée** : `out_len = (b1 & 0x0F) << 16 | (b4 & 0xFF) << 8 | (b3 & 0xFF)`
 - **Type `0x10` (LZW)** : Algorithme Lempel-Ziv-Welch adaptatif avec codes d'effacement de dictionnaire (`0x100`), fin de flux (`0x101`), et table jusqu'à 4096 entrées (largeur de 9 à 12 bits).
 - **Autres types (Huffman + RLE)** : Arbre binaire préfixé suivi d'un flux RLE.
+- **Type `0x01` (Raw / Décompressé)** : Ajouté pour permettre le chargement transparent de niveaux personnalisés sans altérer les formats DOS d'origine.
 
-### 2. Formats des Niveaux (`LEVEL0.SQZ` à `LEVELG.SQZ`)
-Moktar comprend **16 niveaux complets** (contre 15 dans sa version internationale *Titus the Fox*) :
+### 2. Formats des Niveaux (`LEVEL0.SQZ` à `LEVELH.SQZ`)
+Le jeu comprend les **16 niveaux originaux** ainsi qu'un **17e niveau inédit créé sur mesure** :
 - **Hauteur du niveau** : `height = (taille_décompressée - 35828) / 256 tuiles`
 - **Grille de tuiles** : 256 colonnes x `height` lignes (1 octet par tuile, indices 0 à 255).
 - **Banque de tuiles** : 256 tuiles 16x16 pixels stockées en 4 plans de bits EGA/VGA (128 octets par tuile = 32 768 octets au total).
@@ -115,6 +116,22 @@ Moktar comprend **16 niveaux complets** (contre 15 dans sa version international
 | **14** | DE RETOUR AU PAYS | `levele.sqz` | `B1A4` |
 | **15** | DIRECTION BARBES (Boss Moktar) | `levelf.sqz` | `EBEA` |
 | **16** | BIG BISOUS | `levelg.sqz` | `3B9C` |
+| **17** | **LE MYSTERE DU NIVEAU 17** *(Inédit)* | `levelh.sqz` | **`2026`** |
+
+---
+
+## 🌟 Le Nouveau Stage Inédit : Niveau 17 (*LE MYSTERE DU NIVEAU 17*)
+
+Ce stage bonus a été entièrement conçu et intégré dans le respect du moteur et des mécaniques d'origine de Moktar :
+- **Fichier** : `original_assets/levelh.sqz` (taille 45 304 octets, grille de 256x37 tuiles).
+- **Code secret** : tapez **`2026`** dans le menu "PASSWORD" du jeu, ou lancez avec `--level 17`.
+- **Thème musical** : Thème urbain énergique AdLib OPL2 (Piste 12).
+- **Parcours en 5 zones thématiques** :
+  1. *La Rue de Moktar* : Départ au sol, poubelles et caisses à projeter contre les loubards et chiens errants.
+  2. *Les Toits Secrets* : Utilisation des trampolines pour rebondir en hauteur et récolter les diamants suspendus.
+  3. *Le Chantier et les Piliers* : Saut de précision de plateforme en plateforme au-dessus du vide.
+  4. *Le Tunnel & Égouts* : Couloir souterrain gardé par des tireurs et patrouilles.
+  5. *L'Arrivée Triomphale* : Porte de sortie dorée à franchir pour terminer le niveau.
 
 ---
 

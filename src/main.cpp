@@ -189,7 +189,7 @@ void printHelp(const char* progName) {
               << "Options disponibles:\n"
               << "  -h, --help           Affiche cette aide et quitte\n"
               << "  -a, --assets <DIR>   Spécifie le dossier contenant les fichiers originaux du jeu\n"
-              << "  -l, --level <1-16>   Démarre directement au niveau spécifié (1 à 16)\n"
+              << "  -l, --level <1-17>   Démarre directement au niveau spécifié (1 à 17)\n"
               << "  -s, --scale <1-4>    Facteur d'échelle de la fenêtre (1x, 2x, 3x=960x600, 4x)\n"
               << "  -f, --fullscreen     Lance le jeu en plein écran avec maintien du ratio 4:3\n"
               << "  -g, --godmode        Active l'invulnérabilité (Trainer PV illimités)\n"
@@ -238,7 +238,7 @@ void printReverseEngineeringInfo() {
               << "   - Structure: pistes mélodiques, définitions des 19 instruments FM (opérateurs, attack, decay,\n"
               << "     sustain, release, feedback) et 14 effets sonores (SFX)\n"
               << "   - Pilote OPL2: cadence d'horloge DOS ~72.7 Hz (timer 13.75 ms) émulé via DBOPL\n\n"
-              << "5. Niveaux et mots de passe officiels de Moktar (16 niveaux):\n"
+              << "5. Niveaux et mots de passe officiels de Moktar (17 niveaux):\n"
               << "   [Niv 01] A LA RECHERCHE DE LA ZOUBIDA  ->  EFE8\n"
               << "   [Niv 02] LES QUARTIERS CHICS           ->  5165\n"
               << "   [Niv 03] ATTENTION TRAVAUX             ->  67D4\n"
@@ -254,7 +254,8 @@ void printReverseEngineeringInfo() {
               << "   [Niv 13] UN BON TUYAU                  ->  CE96\n"
               << "   [Niv 14] DE RETOUR AU PAYS             ->  B1A4\n"
               << "   [Niv 15] DIRECTION BARBES              ->  EBEA (Boss Moktar)\n"
-              << "   [Niv 16] BIG BISOUS                    ->  3B9C\n\n";
+              << "   [Niv 16] BIG BISOUS                    ->  3B9C\n"
+              << "   [Niv 17] LE MYSTERE DU NIVEAU 17       ->  2026 (Nouveau niveau invente)\n\n";
 }
 
 #if defined(_WIN32) && defined(main)
@@ -279,7 +280,7 @@ int main(int argc, char* argv[]) {
         } else if (arg == "-a" || arg == "--assets") {
             if (i + 1 < argc) opt.assetDir = argv[++i];
         } else if (arg == "-l" || arg == "--level") {
-            if (i + 1 < argc) opt.directLevel = std::max(1, std::min(16, std::stoi(argv[++i])));
+            if (i + 1 < argc) opt.directLevel = std::max(1, std::min(17, std::stoi(argv[++i])));
         } else if (arg == "-s" || arg == "--scale") {
             if (i + 1 < argc) opt.scale = std::max(1, std::min(4, std::stoi(argv[++i])));
         } else if (arg == "-f" || arg == "--fullscreen") {
@@ -342,11 +343,12 @@ int main(int argc, char* argv[]) {
     }
 
     // 3. Map level files
-    const char* levelFileNames[16] = {
+    const char* levelFileNames[17] = {
         "level0.sqz", "levelj.sqz", "level1.sqz", "level2.sqz",
         "level3.sqz", "level4.sqz", "level5.sqz", "level6.sqz",
         "level7.sqz", "level8.sqz", "level9.sqz", "levelb.sqz",
-        "levelc.sqz", "levele.sqz", "levelf.sqz", "levelg.sqz"
+        "levelc.sqz", "levele.sqz", "levelf.sqz", "levelg.sqz",
+        "levelh.sqz"
     };
 
     // 4. Generate dynamic titus.conf
@@ -370,9 +372,9 @@ int main(int argc, char* argv[]) {
         << "ingameheight 192\n"
         << "videomode " << (opt.fullscreen ? 1 : 0) << "\n"
         << "game 1\n"
-        << "levelcount 16\n\n";
+        << "levelcount 17\n\n";
 
-    for (int i = 0; i < 16; ++i) {
+    for (int i = 0; i < 17; ++i) {
         std::string lpath = findAssetFile(assetsDir, levelFileNames[i]);
         if (lpath.empty()) {
             std::cerr << "[!] Fichier de niveau manquant: " << levelFileNames[i] << "\n";

@@ -26,9 +26,9 @@
  * Defines the malloc function
  */
 
-#ifndef MALLOC_H
-#define MALLOC_H
+#ifndef OPENTITUS_MALLOC_H
+#define OPENTITUS_MALLOC_H
 
-void *malloc();
+#include <stdlib.h>
 
 #endif
