@@ -1,21 +1,27 @@
-# Réplique Exécutable Linux en C++ du jeu MOKTAR (1991)
+# Réplique Cross-Platform (Windows & Linux) en C++ du jeu MOKTAR (1991)
 ### *Lagaf': Les Aventures de Moktar - Vol 1: La Zoubida* (Titus Interactive)
 
-Cette réplique native Linux en C++ est un clone fidèle du jeu DOS culte **Moktar** (1991) créé par rétro-ingénierie (*reverse engineering*) des fichiers originaux situés dans votre dossier DOSBox :
-`/home/manianis/snap/dosbox-x/1598/dosbox/Moktar`
+Cette réplique native en C++ est un clone fidèle du jeu DOS culte **Moktar** (1991) créé par rétro-ingénierie (*reverse engineering*) des fichiers originaux, compatible et compilable à la fois sur **Windows** (MSYS2 / UCRT64 ou MinGW64) et **Linux**.
 
 ---
 
 ## 🎮 Lancement rapide
 
-Le projet est entièrement compilé et autonome (bibliothèques locales incluses dans `./lib/`). Pour lancer le jeu :
+### Sur Windows :
+Double-cliquez ou lancez simplement dans votre invite de commande (CMD ou PowerShell) :
+```cmd
+run_moktar.bat
+```
+*(Si le jeu n'est pas encore compilé, il lance automatiquement la compilation via MSYS2).*
 
+### Sur Linux / MSYS2 Bash :
 ```bash
 ./run_moktar.sh
 ```
 
 ### Options en ligne de commande :
 ```bash
+# Exemple Windows (run_moktar.bat ou .\bin\moktar.exe) / Linux (./run_moktar.sh)
 ./run_moktar.sh --help            # Affiche l'aide complète
 ./run_moktar.sh --info            # Affiche le rapport de reverse engineering
 ./run_moktar.sh --level <1-16>    # Démarre directement à un niveau (1 à 16)
@@ -114,7 +120,32 @@ Moktar comprend **16 niveaux complets** (contre 15 dans sa version international
 
 ## 🛠️ Recompilation
 
-Pour recompiler le projet :
+### 1. Sous Windows (via MSYS2)
+
+Deux méthodes simples sont disponibles :
+
+#### Méthode A : Script automatique en 1 clic
+Exécutez simplement :
+```cmd
+build_windows.bat
+```
+Ce script détecte automatiquement MSYS2 (`C:\MSYS2` ou `C:\msys64`), configure l'environnement UCRT64, vérifie les dépendances et lance la compilation.
+Le binaire généré sera `bin\moktar.exe`.
+
+#### Méthode B : Depuis le terminal MSYS2 (UCRT64 ou MINGW64)
+Ouvrez le terminal UCRT64 (ou exécutez `C:\MSYS2\ucrt64.exe`) :
+```bash
+# Vérification des dépendances (à faire une seule fois) :
+pacman -S --needed make mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-sdl12-compat mingw-w64-ucrt-x86_64-SDL2
+
+# Compilation :
+make clean
+make -j$(nproc)
+```
+
+---
+
+### 2. Sous Linux
 
 ```bash
 make clean
@@ -122,3 +153,4 @@ make -j$(nproc)
 ```
 
 Le binaire exécutable sera généré dans `bin/moktar`.
+

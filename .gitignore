@@ -1,0 +1,40 @@
+# ==============================================================================
+# Fichiers ignorés par Git pour Moktar
+# Ne conserve que les sources utiles, scripts, assets originaux et documentation
+# ==============================================================================
+
+# Objets de compilation et dossiers intermédiaires
+obj/
+*.o
+*.obj
+*.a
+*.lib
+
+# Binaires et exécutables compilés
+bin/moktar
+bin/moktar.exe
+*.exe
+
+# Fichiers de runtime / DLLs copiées automatiquement sous Windows
+bin/*.dll
+bin/*.txt
+stdout.txt
+stderr.txt
+*.log
+
+# Fichiers générés automatiquement au lancement du jeu
+titus.conf
+music_mok.bin
+
+# Fichiers d'éditeurs et IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+
+# Fichiers spécifiques au système d'exploitation
+.DS_Store
+Thumbs.db
+desktop.ini

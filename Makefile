@@ -1,14 +1,34 @@
-# Makefile for Moktar Linux C++ Replica
+# Makefile for Moktar (Windows & Linux C++ Replica)
 
-CC = gcc
-CXX = g++
+CC ?= gcc
+CXX ?= g++
 
-INCLUDE = -I./include -I./sdl_compat_local/usr/include
-CFLAGS  = -std=gnu17 -O2 -g -fcommon -fpermissive -w $(INCLUDE)
-CXXFLAGS = -std=c++17 -O2 -g -fcommon -w $(INCLUDE)
-LDFLAGS = -L./lib -lSDL -lSDL2 -lm -lpthread '-Wl,-rpath,$$ORIGIN/../lib:$$ORIGIN/lib' -Wl,-rpath-link,./lib
+# Platform Detection
+ifeq ($(OS),Windows_NT)
+    PLATFORM = Windows
+else
+    UNAME_S := $(shell uname -s 2>/dev/null || echo Linux)
+    ifeq ($(findstring Linux,$(UNAME_S)),Linux)
+        PLATFORM = Linux
+    else
+        PLATFORM = Windows
+    endif
+endif
 
-TARGET = bin/moktar
+ifeq ($(PLATFORM),Windows)
+    TARGET = bin/moktar.exe
+    INCLUDE = -I./include $(shell sdl-config --cflags 2>/dev/null || echo -I./sdl_compat_local/usr/include)
+    CFLAGS  = -std=gnu17 -O2 -g -fcommon -fpermissive -w $(INCLUDE)
+    CXXFLAGS = -std=c++17 -O2 -g -fcommon -w $(INCLUDE)
+    LDFLAGS = -mconsole -lSDL -lSDL2 -lm -static-libgcc -static-libstdc++
+else
+    TARGET = bin/moktar
+    INCLUDE = -I./include -I./sdl_compat_local/usr/include
+    CFLAGS  = -std=gnu17 -O2 -g -fcommon -fpermissive -w $(INCLUDE)
+    CXXFLAGS = -std=c++17 -O2 -g -fcommon -w $(INCLUDE)
+    LDFLAGS = -L./lib -lSDL -lSDL2 -lm -lpthread '-Wl,-rpath,$$ORIGIN/../lib:$$ORIGIN/lib' -Wl,-rpath-link,./lib
+endif
+
 OBJDIR = obj
 
 C_SRCS = \
@@ -60,11 +80,21 @@ $(OBJDIR)/%.o: src/%.cpp
 $(TARGET): $(ALL_OBJS)
 	@echo "  LINK  $@"
 	@$(CXX) -o $@ $(ALL_OBJS) $(LDFLAGS)
+ifeq ($(PLATFORM),Windows)
+	@which cygpath >/dev/null 2>&1 && for dll in SDL.dll SDL2.dll libwinpthread-1.dll; do \
+		p=$$(which $$dll 2>/dev/null); \
+		if [ -n "$$p" ] && [ -f "$$p" ]; then cp -u "$$p" bin/ 2>/dev/null || true; fi; \
+	done || true
+endif
 	@echo "==> Moktar compilé avec succès dans $(TARGET) !"
 
 clean:
-	@rm -rf $(OBJDIR) $(TARGET) titus.conf music_mok.bin
+	@rm -rf $(OBJDIR) bin/moktar bin/moktar.exe titus.conf music_mok.bin
 	@echo "==> Nettoyage terminé."
 
 run: all
+ifeq ($(PLATFORM),Windows)
+	@$(TARGET)
+else
 	@./run_moktar.sh
+endif

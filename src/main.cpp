@@ -18,6 +18,18 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <cstdlib>
+#include <algorithm>
+static inline int portable_setenv(const char *name, const char *value, int overwrite) {
+    if (!overwrite && std::getenv(name) != nullptr) return 0;
+    return _putenv_s(name, value);
+}
+#define setenv portable_setenv
+#endif
+
 namespace fs = std::filesystem;
 
 extern "C" {
@@ -66,22 +78,33 @@ std::string findAssetFile(const std::string& directory, const std::string& targe
             for (auto &c : filenameLower) c = std::tolower(c);
 
             if (filenameLower == targetLower) {
-                return entry.path().string();
+                std::string pathStr = entry.path().string();
+                std::replace(pathStr.begin(), pathStr.end(), '\\', '/');
+                return pathStr;
             }
         }
     } catch (...) {}
 
     // Fallbacks
     std::string directPath = directory + "/" + targetName;
-    if (fs::exists(directPath)) return directPath;
+    if (fs::exists(directPath)) {
+        std::replace(directPath.begin(), directPath.end(), '\\', '/');
+        return directPath;
+    }
 
     std::string lowerPath = directory + "/" + targetLower;
-    if (fs::exists(lowerPath)) return lowerPath;
+    if (fs::exists(lowerPath)) {
+        std::replace(lowerPath.begin(), lowerPath.end(), '\\', '/');
+        return lowerPath;
+    }
 
     std::string upperTarget = targetName;
     for (auto &c : upperTarget) c = std::toupper(c);
     std::string upperPath = directory + "/" + upperTarget;
-    if (fs::exists(upperPath)) return upperPath;
+    if (fs::exists(upperPath)) {
+        std::replace(upperPath.begin(), upperPath.end(), '\\', '/');
+        return upperPath;
+    }
 
     return "";
 }
@@ -127,14 +150,19 @@ std::string resolveAssetDirectory(const std::string& userSpecified) {
     candidates.push_back("/home/manianis/snap/dosbox-x/1598/dosbox");
     // Local workspace paths:
     candidates.push_back("./original_assets");
+    candidates.push_back("../original_assets");
     candidates.push_back("./assets");
+    candidates.push_back("../assets");
     candidates.push_back(".");
+    candidates.push_back("..");
 
     for (const auto& path : candidates) {
         if (fs::exists(path) && fs::is_directory(path)) {
             // Check if level0.sqz or sprites.sqz exists here
             if (!findAssetFile(path, "level0.sqz").empty() && !findAssetFile(path, "sprites.sqz").empty()) {
-                return fs::canonical(path).string();
+                std::string res = path;
+                std::replace(res.begin(), res.end(), '\\', '/');
+                return res;
             }
         }
     }
@@ -229,7 +257,15 @@ void printReverseEngineeringInfo() {
               << "   [Niv 16] BIG BISOUS                    ->  3B9C\n\n";
 }
 
+#if defined(_WIN32) && defined(main)
+#undef main
+#endif
+
 int main(int argc, char* argv[]) {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#endif
+
     GameOptions opt;
 
     for (int i = 1; i < argc; ++i) {
@@ -276,7 +312,9 @@ int main(int argc, char* argv[]) {
     std::vector<std::string> musicCandidates = {
         findAssetFile(assetsDir, "music_mok.bin"),
         findAssetFile(".", "music_mok.bin"),
+        findAssetFile("..", "music_mok.bin"),
         findAssetFile("./original_assets", "music_mok.bin"),
+        findAssetFile("../original_assets", "music_mok.bin"),
         findAssetFile("./opentitus_ref/bin", "music_mok.bin")
     };
     std::string musicPath = "";
